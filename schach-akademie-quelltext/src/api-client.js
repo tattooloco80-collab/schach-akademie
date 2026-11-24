@@ -4,6 +4,11 @@ const ONLINE_MS = 90000;
 const CHALLENGE_MS = 10 * 60000;
 
 let currentUser = null;
+let getMpUser = null;
+
+export const setGetMpUser = (fn) => { getMpUser = fn; };
+
+const ensureUser = () => currentUser || (getMpUser ? getMpUser() : null);
 
 async function db(method, path, body) {
   const ctl = new AbortController();
@@ -50,8 +55,10 @@ export async function apiRename(newNick) {
 }
 
 export async function apiLobbyState() {
-  if (!currentUser) return { error: 'Nicht angemeldet' };
-  const me = currentUser, now = Date.now();
+  const me = ensureUser();
+  if (!me) return { error: 'Nicht angemeldet' };
+  if (!currentUser) currentUser = me;
+  const now = Date.now();
   try {
     const [players, challenges] = await Promise.all([
       db('GET', 'players'),
@@ -80,7 +87,9 @@ export async function apiMarkSeen(challengeId) {
 }
 
 export async function apiSendChallenge(opponentUid, opponentNickname) {
-  if (!currentUser) return { error: 'Nicht angemeldet' };
+  const me = ensureUser();
+  if (!me) return { error: 'Nicht angemeldet' };
+  currentUser = me;
   try {
     const r = await db('POST', 'challenges', {
       from: currentUser.uid, fromNickname: currentUser.nickname,

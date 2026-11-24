@@ -7,7 +7,9 @@ import { Board2D } from './board2d.js';
 import { BoardView } from './boardview.js';
 import KNIGHT from './knight.svg';
 import { store, deSan, GLYPH, moveSpoken, tick, listenOnce, parseVoiceMove, getSample, getDictation, addDebugLog, getDebugLogs } from './util.js';
-import { apiLogin, apiLogout, apiRename, apiLobbyState, apiMarkSeen, apiSendChallenge, apiAcceptChallenge, apiDeclineChallenge, apiGetGameState, apiSendMove, apiEndGame, apiUpdateElo, getCurrentUser } from './api-client.js';
+import { apiLogin, apiLogout, apiRename, apiLobbyState, apiMarkSeen, apiSendChallenge, apiAcceptChallenge, apiDeclineChallenge, apiGetGameState, apiSendMove, apiEndGame, apiUpdateElo, getCurrentUser, setGetMpUser } from './api-client.js';
+
+setGetMpUser(() => mpUser());
 
 /* global __WORKER_SRC__ */
 const app = document.getElementById('app');
