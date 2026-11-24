@@ -164,7 +164,7 @@ async function setupMultiplayer() {
   if (saved && saved.nickname) {
     toast('⏳ Verbinde …', 1500);
     const r = await apiLogin(saved.nickname);
-    if (r.error) return toast('⚠️ ' + r.error + ' – bitte Internet prüfen');
+    if (r.error) { toast('⚠️ ' + r.error + ' – bitte Internet prüfen'); store.del('multiplayerUser'); return multiplayerLogin(); }
     store.set('multiplayerUser', r.user);
     return multiplayerLobby();
   }
