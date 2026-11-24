@@ -151,6 +151,9 @@ header span{background:none}
 </head>
 <body>
 <div id="app"></div>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js"></script>
 <script>(()=>{var yp=Object.defineProperty;var bp=(i,e,t)=>e in i?yp(i,e,{enumerable:!0,configurable:!0,writable:!0,value:t}):i[e]=t;var vt=(i,e,t)=>bp(i,typeof e!="symbol"?e+"":e,t);function Sp(i){return i!==null?{comment:i,variations:[]}:{variations:[]}}function Mp(i,e,t,n,s){let r={move:i,variations:s};return e&&(r.suffix=e),t&&(r.nag=t),n!==null&&(r.comment=n),r}function wp(...i){let[e,...t]=i,n=e;for(let s of t)s!==null&&(n.variations=[s,...s.variations],s.variations=[],n=s);return e}function Ep(i,e){if(e.marker&&e.marker.comment){let t=e.root;for(;;){let n=t.variations[0];if(!n){t.comment=e.marker.comment;break}t=n}}return{headers:i,root:e.root,result:(e.marker&&e.marker.result)??void 0}}function Tp(i,e){function t(){this.constructor=i}t.prototype=e.prototype,i.prototype=new t}function ds(i,e,t,n){var s=Error.call(this,i);return Object.setPrototypeOf&&Object.setPrototypeOf(s,ds.prototype),s.expected=e,s.found=t,s.location=n,s.name="SyntaxError",s}Tp(ds,Error);function ec(i,e,t){return t=t||" ",i.length>e?i:(e-=i.length,t+=t.repeat(e),i+t.slice(0,e))}ds.prototype.format=function(i){var e="Error: "+this.message;if(this.location){var t=null,n;for(n=0;n<i.length;n++)if(i[n].source===this.location.source){t=i[n].text.split(/\r\n|\n|\r/g);break}var s=this.location.start,r=this.location.source&&typeof this.location.source.offset=="function"?this.location.source.offset(s):s,a=this.location.source+":"+r.line+":"+r.column;if(t){var o=this.location.end,l=ec("",r.line.toString().length," "),c=t[s.line-1],h=s.line===o.line?o.column:c.length+1,f=h-s.column||1;e+=`
  --> `+a+`
 `+l+` |
