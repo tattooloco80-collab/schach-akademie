@@ -4468,23 +4468,23 @@ Frage des Sch\xFClers: ${h}`;try{let x=await f(p,{cache:!1,modelTier:"quick",onT
     <button class="btn pri wide" data-a="change" style="margin-bottom:12px;">\u270F\uFE0F \xC4ndern</button>
     <button class="btn wide" data-a="logout" style="background:#8B0000;color:#fff;">\u{1F6AA} Abmelden</button>
     <button class="btn wide" data-a="back" style="margin-top:16px;opacity:0.6;">Zur\xFCck</button>
-  </div></div>`);e.onclick=t=>{let n=t.target.closest("button");if(!n)return;let s=n.dataset.a;if(s==="back")return os();if(s==="change")return Sy();s==="logout"&&confirm("Wirklich abmelden? Du musst dich dann neu anmelden.")&&(mt.del("multiplayerNick"),Pt("\u2705 Abgemeldet"),hp())},hn(e)}function Yh(){let i=mt.get("multiplayerNick","Ich"),t=[...[{nick:"Bot1",elo:1200},{nick:"Bot2",elo:1400},{nick:"Bot3",elo:1600},{nick:"Carina",elo:1300},{nick:"Testbot",elo:1500}]];(()=>{let s=It(`<div class="screen setup"><header><button class="back">\u2190</button><h2>\u{1F3AE} Lobby (Demo)</h2><span></span></header><div class="pad">
-      <div class="opt" style="text-align:center;padding:12px;background:#333;border-radius:4px;margin-bottom:16px;">
-        <p style="font-size:0.9em;color:#999;">Du bist angemeldet als:</p>
-        <p style="font-size:1.2em;font-weight:bold;color:#fff;">${qt(i)}</p>
-      </div>
-      <p style="font-size:0.9em;color:#999;margin-bottom:8px;"><b>Spieler online:</b></p>
-      <div style="border:1px solid #666;border-radius:4px;overflow:hidden;" id="playerlist"></div>
-      <button class="btn wide" data-a="back" style="margin-top:16px;">\u2190 Zur\xFCck</button>
-    </div></div>`),r=document.getElementById("playerlist");r.innerHTML=t.map(a=>`
-      <div style="padding:12px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
-        <span style="flex:1;">
-          <b>${qt(a.nick)}</b>
-          <br><small style="color:#999;">${a.elo} Elo</small>
-        </span>
-        <button class="btn" data-nick="${qt(a.nick)}" data-a="challenge" style="white-space:nowrap;">Fordern \u{1F3AF}</button>
-      </div>
-    `).join(""),s.onclick=a=>{let o=a.target.closest("button");if(o){if(o.dataset.a==="back")return os();if(o.dataset.a==="challenge"){let l=o.dataset.nick;Pt(`\u2705 Du hast ${l} herausgefordert! \u{1F389}`),setTimeout(()=>os(),1e3)}}},hn(s)})()}function Sy(){let i=mt.get("multiplayerNick",""),e=It(`<div class="screen setup"><header><button class="back">\u2190</button><h2>\u270F\uFE0F Nickname \xE4ndern</h2><span></span></header><div class="pad">
+  </div></div>`);e.onclick=t=>{let n=t.target.closest("button");if(!n)return;let s=n.dataset.a;if(s==="back")return os();if(s==="change")return Sy();s==="logout"&&confirm("Wirklich abmelden? Du musst dich dann neu anmelden.")&&(mt.del("multiplayerNick"),Pt("\u2705 Abgemeldet"),hp())},hn(e)}function Yh(){let i=mt.get("multiplayerNick","Ich"),t=[{nick:"Bot1",elo:1200},{nick:"Bot2",elo:1400},{nick:"Bot3",elo:1600},{nick:"Carina",elo:1300},{nick:"Testbot",elo:1500}].map(s=>`
+    <div style="padding:12px;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;">
+      <span style="flex:1;">
+        <b>${qt(s.nick)}</b>
+        <br><small style="color:#999;">${s.elo} Elo</small>
+      </span>
+      <button class="btn" data-nick="${qt(s.nick)}" data-a="challenge" style="white-space:nowrap;">Fordern \u{1F3AF}</button>
+    </div>
+  `).join(""),n=It(`<div class="screen setup"><header><button class="back">\u2190</button><h2>\u{1F3AE} Lobby (Demo)</h2><span></span></header><div class="pad">
+    <div class="opt" style="text-align:center;padding:12px;background:#333;border-radius:4px;margin-bottom:16px;">
+      <p style="font-size:0.9em;color:#999;">Du bist angemeldet als:</p>
+      <p style="font-size:1.2em;font-weight:bold;color:#fff;">${qt(i)}</p>
+    </div>
+    <p style="font-size:0.9em;color:#999;margin-bottom:8px;"><b>Spieler online:</b></p>
+    <div style="border:1px solid #666;border-radius:4px;overflow:hidden;">${t}</div>
+    <button class="btn wide" data-a="back" style="margin-top:16px;">\u2190 Zur\xFCck</button>
+  </div></div>`);n.onclick=s=>{let r=s.target.closest("button");if(r){if(r.dataset.a==="back")return os();if(r.dataset.a==="challenge"){let a=r.dataset.nick;Pt(`\u2705 Du hast ${a} herausgefordert! \u{1F389}`),setTimeout(()=>os(),1e3)}}},hn(n)}function Sy(){let i=mt.get("multiplayerNick",""),e=It(`<div class="screen setup"><header><button class="back">\u2190</button><h2>\u270F\uFE0F Nickname \xE4ndern</h2><span></span></header><div class="pad">
     <p style="margin:20px 0;">Neuer Nickname:</p>
     <input type="text" id="new-nick" placeholder="z.B. Ben, Anna..." value="${qt(i)}" maxlength="30" style="width:100%;padding:8px;border:1px solid #666;border-radius:4px;margin:12px 0;box-sizing:border-box;">
     <button class="btn pri wide" data-a="save" style="margin-bottom:8px;">\u2705 Speichern</button>
