@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const page = await (await browser.newContext({ viewport: { width: 390, height: 844 } })).newPage(); const errs = []; page.on('pageerror', (e) => errs.push(e.message));
+await page.goto('file:///home/claude/chess/dist/index.html'); await page.waitForTimeout(400);
+console.log(await page.evaluate(() => document.querySelector('[data-a=elo] i').textContent));
+await page.evaluate(() => window.__app.gameScreen({ mode: 'bot', level: 3, human: 'w', moves: ['e2e4','e7e5','g1f3','b8c6'] }));
+await page.waitForTimeout(800);
+await page.click('[data-a=resign]'); await page.waitForTimeout(500);
+await page.click('.modal button.pri, [class*=modal] button:last-child').catch(async()=>{}); await page.waitForTimeout(1500);
+console.log(await page.evaluate(() => document.body.innerText.match(/Deine geschätzte[^.]*\.?[^.]*\./)?.[0]), errs);
+await browser.close();

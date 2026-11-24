@@ -1,0 +1,18 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const errs = [];
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+const page = await ctx.newPage(); page.on('pageerror', (e) => errs.push('PAGEERR ' + e.message)); page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
+await page.goto('file:///home/claude/chess/dist/index.html'); await page.waitForTimeout(400);
+await page.evaluate(() => { const a = window.__app; a.settings.coachVoice = false; a.gameScreen({ mode: 'bot', level: 2, human: 'w', moves: [] }); });
+await page.waitForTimeout(500);
+const tap = async (s) => { const [x, y] = await page.evaluate((q) => window.__app.sqXY(q), s); await page.touchscreen.tap(x, y); await page.waitForTimeout(150); };
+await tap('e2'); await page.screenshot({ path: 'shots/50-sel.png' });
+await tap('e4'); await page.waitForTimeout(600); await page.screenshot({ path: 'shots/51-anim.png' });
+await page.waitForTimeout(11000);
+console.log('Status:', await page.textContent('.status'), '|', await page.textContent('.mlist'));
+await page.screenshot({ path: 'shots/52-after.png' });
+await page.evaluate(() => window.__app.lessonScreen('t-gabel')); await page.waitForTimeout(500);
+await page.screenshot({ path: 'shots/53-lesson.png' });
+console.log('Fehler:', errs.slice(0, 5));
+await browser.close();

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "source": "https://github.com/lichess-org/chess-openings",
+  "revision": "48a8c0e733facfdc9a3723fe882e51ec28014074",
+  "sourceLicense": "CC0-1.0",
+  "sourceFiles": [
+    "a.tsv",
+    "b.tsv",
+    "c.tsv",
+    "d.tsv",
+    "e.tsv"
+  ],
+  "counts": {
+    "openings": 3865,
+    "gambitNames": 1284,
+    "trapOrMateNames": 16,
+    "lessons": 32,
+    "lessonCategories": {
+      "opening": 10,
+      "gambit": 9,
+      "trap": 5,
+      "tactic": 3,
+      "strategy": 3,
+      "endgame": 2
+    }
+  }
+}

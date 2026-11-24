@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const browser = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+const page = await ctx.newPage(); const errs = []; page.on('pageerror', (e) => errs.push(e.message));
+await page.goto('file:///home/claude/chess/dist/index.html'); await page.waitForTimeout(400);
+await page.evaluate(() => window.__app.settings && document.querySelector('[data-a=settings],.gear,#set') );
+await page.evaluate(() => { const b=[...document.querySelectorAll('button')].find(b=>/Einstell|⚙/.test(b.textContent)); b && b.click(); });
+await page.waitForTimeout(500);
+const info = await page.evaluate(() => { const b=document.querySelector('[data-a=vtest]'); if(!b) return 'kein Button'; b.scrollIntoView(); const r=b.getBoundingClientRect(); const e=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2); return {r:[r.x,r.y,r.width,r.height], top: e&&e.outerHTML.slice(0,120), ph: getComputedStyle(b).pointerEvents}; });
+console.log(JSON.stringify(info)); await page.screenshot({ path: '/tmp/set.png' }); console.log(errs); await browser.close();

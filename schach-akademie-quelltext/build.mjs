@@ -1,0 +1,12 @@
+import { build } from 'esbuild';
+import fs from 'fs';
+fs.mkdirSync('dist', { recursive: true });
+const w = await build({ entryPoints: ['src/engine.worker.js'], bundle: true, minify: true, format: 'iife', write: false, target: 'es2020' });
+const workerSrc = w.outputFiles[0].text;
+const a = await build({ entryPoints: ['src/app.js'], bundle: true, minify: true, format: 'iife', write: false, target: 'es2020', loader: { '.json': 'json', '.svg': 'text', '.webp': 'dataurl' }, define: { __WORKER_SRC__: JSON.stringify(workerSrc) } });
+const js = a.outputFiles[0].text.replace(/<\/script/gi, '<\\/script');
+const css = fs.readFileSync('src/style.css', 'utf8');
+const icon = fs.readFileSync('dist/icon-180.png').toString('base64');
+const html = fs.readFileSync('src/index.template.html', 'utf8').replaceAll('/*ICON*/', () => icon).replace('/*CSS*/', () => css).replace('/*JS*/', () => js);
+fs.writeFileSync('dist/index.html', html);
+console.log('dist/index.html', (html.length / 1024).toFixed(0) + ' KB');
