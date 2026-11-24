@@ -209,7 +209,7 @@ function multiplayerLogin() {
 }
 
 function multiplayerLobby() {
-  const user = getCurrentUser();
+  const user = getCurrentUser() || mpUser();
   if (!user) return home();
 
   let timer = null, alive = true, entering = false, polling = false, sig = '';
