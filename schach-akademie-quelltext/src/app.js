@@ -962,4 +962,4 @@ function settingsScreen() {
 }
 
 window.__app = { LESSONS, repeatScreen, repQueue, sqXY: (q) => window.__board && window.__board.sqXY(q), analysisScreen, home, gameScreen, lessonScreen, learnHome, trainHome, puzzleScreen, settings };
-home();
+mpUser() ? setupMultiplayer() : home();
