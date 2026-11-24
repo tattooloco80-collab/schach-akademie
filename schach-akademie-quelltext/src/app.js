@@ -215,7 +215,7 @@ function multiplayerLobby() {
   let timer = null, alive = true, entering = false, polling = false, sig = '';
 
   const el = h(`<div class="screen setup"><header><button class="back">←</button><h2>🎮 Multiplayer</h2><button class="btn mini" data-a="profile">👤</button></header><div class="pad">
-    <div class="opt"><b>Du: ${esc(user.nickname)}</b><p>Elo: ${user.elo}</p></div>
+    <div class="opt" style="display:flex;justify-content:space-between;align-items:center;"><div><b>Du: ${esc(user.nickname)}</b><p>Elo: ${user.elo}</p></div><button class="btn" data-a="rename" style="margin-left:12px;">✏️ Ändern</button></div>
     <div class="opt"><b class="pcount">Online</b></div>
     <div class="plist" style="max-height:300px;overflow-y:auto;border:1px solid #444;border-radius:4px;padding:8px;"><i>⏳ Lade Spieler …</i></div>
     <div class="opt cbox" style="display:none;margin-top:16px;"><b>Herausforderungen</b><div class="clist"></div></div>
@@ -266,6 +266,7 @@ function multiplayerLobby() {
     const a = b.dataset.a;
     if (b.classList.contains('back') || a === 'back') return home();
     if (a === 'profile') return showProfile();
+    if (a === 'rename') return changeNickname();
     if (a === 'challenge') {
       b.disabled = true;
       const r = await apiSendChallenge(b.dataset.pid, b.dataset.pname);
