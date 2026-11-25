@@ -37,14 +37,16 @@ export async function apiLogin(nickname) {
 }
 
 export async function apiLogout() {
-  if (!currentUser) return;
-  try { await db('PUT', `players/${currentUser.uid}/lastSeen`, 0); } catch (e) {}
+  const me = ensureUser();
+  if (!me) return;
+  try { await db('PUT', `players/${me.uid}/lastSeen`, 0); } catch (e) {}
   currentUser = null;
 }
 
 export async function apiRename(newNick) {
-  if (!currentUser) return { error: 'Nicht angemeldet' };
-  const old = currentUser;
+  const old = ensureUser();
+  if (!old) return { error: 'Nicht angemeldet' };
+  currentUser = old;
   const r = await apiLogin(newNick);
   if (r.error) { currentUser = old; return r; }
   if (r.user.uid !== old.uid) {
@@ -103,14 +105,16 @@ export async function apiSendChallenge(opponentUid, opponentNickname) {
 }
 
 export async function apiAcceptChallenge(challengeId) {
-  if (!currentUser) return { error: 'Nicht angemeldet' };
+  const me = ensureUser();
+  if (!me) return { error: 'Nicht angemeldet' };
+  if (!currentUser) currentUser = me;
   try {
     const c = await db('GET', `challenges/${challengeId}`);
     if (!c || c.status !== 'pending') return { error: 'Herausforderung nicht mehr verfügbar' };
     const oppElo = await db('GET', `players/${c.from}/elo`);
     const g = await db('POST', 'games', {
       white: c.from, whiteName: c.fromNickname, whiteElo: oppElo || 1200,
-      black: currentUser.uid, blackName: currentUser.nickname, blackElo: currentUser.elo,
+      black: me.uid, blackName: me.nickname, blackElo: me.elo,
       createdAt: Date.now(),
     });
     await db('PUT', `challenges/${challengeId}/gameId`, g.name);
@@ -152,13 +156,15 @@ export async function apiEndGame(gameId, result) {
 }
 
 export async function apiUpdateElo(oppElo, score) {
-  if (!currentUser) return null;
+  const me = ensureUser();
+  if (!me) return null;
+  if (!currentUser) currentUser = me;
   try {
-    const mine = (await db('GET', `players/${currentUser.uid}/elo`)) || currentUser.elo || 1200;
+    const mine = (await db('GET', `players/${me.uid}/elo`)) || me.elo || 1200;
     const exp = 1 / (1 + Math.pow(10, ((oppElo || 1200) - mine) / 400));
     const nw = Math.max(100, Math.round(mine + 32 * (score - exp)));
-    await db('PUT', `players/${currentUser.uid}/elo`, nw);
-    currentUser.elo = nw;
+    await db('PUT', `players/${me.uid}/elo`, nw);
+    if (currentUser) currentUser.elo = nw;
     return nw;
   } catch (e) { return null; }
 }
