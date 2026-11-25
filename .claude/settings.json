@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "default": "auto"
+  },
+  "allowlist": [
+    "PowerShell",
+    "Edit",
+    "Read",
+    "Write",
+    "Glob",
+    "Grep"
+  ]
+}
